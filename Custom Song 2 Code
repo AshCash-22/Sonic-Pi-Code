@@ -1,0 +1,578 @@
+use_bpm 128
+use_synth :piano
+nextKeys = [:e2,:e3,:d2,:d3,:d3,:d2,:d3,:d2,:e2,:e3,:d2,:d3,:d3,:d2,:d3,:d2]
+i = 0
+# VARIABLES TO STORE SAMPLES
+transition= "C:/Users/Ashley Sutton/Downloads/audiomass-output.wav"
+outro="C:/Users/Ashley Sutton/Downloads/kiss-outro sonic pi.wav"
+new_drums="C:/Users/Ashley Sutton/Downloads/newdrums.wav"
+define :mainpart do
+  play :E2
+  sleep 0.5
+  play :E3
+  sleep 0.5
+  play :E2
+  sleep 0.5
+  play :E3
+  sleep 0.5
+  play :E2
+  sleep 0.5
+  play :E2
+  sleep 0.5
+  play :E3
+  sleep 0.5
+  play :E2
+  sleep 0.5
+end
+
+define :second_bottom do
+  sleep 1
+  play :D4, amp: 1.5
+  play :B3, amp: 1.5
+  play :E3, amp: 1.5
+  sleep 1
+  play :C4, amp: 1.25
+  play :A3, amp: 1.25
+  play :E3, amp: 1.25
+  sleep 1.5
+  play :E4, amp: 1
+  play :B3, amp: 1
+  play :G3, amp: 1
+  sleep 1
+  play :E4, amp: 0.75
+  play :B3, amp: 0.75
+  play :G3, amp: 0.75
+  sleep 0.5
+  play :D4,sustain: 3, amp: 0.4
+  play :A3,sustain: 3, amp: 0.4
+  play :Fs3,sustain: 3, amp: 0.4
+  sleep 3
+end
+
+define :first_bottom do
+  sleep 1
+  play :A4, amp: 0.4
+  play :E4, amp: 0.4
+  play :B3, amp: 0.4
+  sleep 1
+  play :G4, amp: 0.75
+  play :E4, amp: 0.75
+  play :B3, amp: 0.75
+  sleep 1.5
+  play :A4, amp: 1
+  play :E4, amp: 1
+  play :B3, amp: 1
+  sleep 1
+  play :A4, amp: 1.25
+  play :E4, amp: 1.25
+  play :B3, amp: 1.25
+  sleep 0.5
+  play :G4, sustain: 3, amp: 1.5
+  play :E4, sustain: 3, amp: 1.5
+  play :B3, sustain: 3, amp: 1.5
+  sleep 3
+end
+
+define :mmdoo do|y|
+  play :A2
+  sleep 0.5
+  play :A3
+  sleep 0.5
+  play :A2
+  sleep 0.5
+  play :A3
+  sleep 0.5
+  play :A2
+  sleep 0.5
+  play :A2
+  sleep 0.5
+  play :A3
+  sleep 0.5
+  play y
+  sleep 0.5
+end
+
+define :do_notes do|x|
+  play :E4
+  play x
+  sleep 1
+  play :F4
+  play x
+  sleep 1
+  play :G4
+  play x
+  sleep 1
+  play :A4
+  play x
+  sleep 0.5
+  play :b4
+  play x
+  sleep 1
+  play :B4
+  play x
+  sleep 0.5
+end
+
+define :difpart do
+  play :E2
+  sleep 0.5
+  play :B2
+  sleep 0.5
+  play :G3
+  play :E3
+  sleep 0.5
+end
+
+
+sample transition
+sleep sample_duration(transition)
+
+live_loop :first_part do
+  4.times do mainpart end
+  stop
+end
+
+sleep 6.4
+sample new_drums, amp: 8
+sleep 1.6
+live_loop :first_part2 do
+  1.times do first_bottom end
+  stop
+end
+
+sleep 8
+
+live_loop :first_switch do
+  2.times do mmdoo:E2 end
+  stop
+end
+
+live_loop :second_part do
+  1.times do second_bottom end
+  stop
+end
+
+sleep 8
+
+
+1.times do
+  live_loop :next do
+    if i > 15
+      stop
+    end
+    play(nextKeys[i])
+    sleep 0.5
+    i = i + 1
+  end
+  
+  live_loop :first_part2_repeat do
+    1.times do first_bottom end
+    stop
+  end
+  
+  sleep 8
+  
+  live_loop :first_switch_repeat do
+    2.times do mmdoo:E2 end
+    stop
+  end
+  
+  live_loop :second_part_repeat do
+    1.times do second_bottom end
+    stop
+  end
+  
+  sleep 8
+  
+  live_loop :first_partalt do
+    2.times do mainpart end
+    stop
+  end
+  
+  live_loop :do_switch_mid do
+    1.times do
+      do_notes :B3
+      play :A4
+      play :B3
+      sleep 1
+      play :G4
+      play :B3
+      sleep 1
+      play :F4
+      play :B3
+      sleep 1
+    end
+    stop
+  end
+  
+  sleep 8
+  
+  live_loop :do_switch2_mid do
+    1.times do
+      do_notes :C4
+      play :A4, sustain: 3
+      play :D4, sustain: 3
+      sleep 3
+    end
+    stop
+  end
+  
+  
+  1.times do
+    mmdoo :A2
+    play :A2
+    sleep 0.5
+    play :A3
+    sleep 0.5
+    play :A2
+    sleep 0.5
+    play :A3
+    sleep 0.5
+    play :A2
+    sleep 0.5
+    play :A3
+    sleep 0.5
+    play :D3
+    play :D2
+    sleep 0.5
+  end
+end
+
+
+sleep 0.5
+
+live_loop :do_switch_final do
+  1.times do
+    do_notes :B3
+    play :A4
+    play :B3
+    sleep 1
+    play :G4
+    play :B3
+    sleep 1
+    play :F4
+    play :B3
+    sleep 1
+  end
+  stop
+end
+
+live_loop :first_partalt_final do
+  2.times do mainpart end
+  stop
+end
+
+sleep 8
+
+live_loop :do_switch2_final do
+  1.times do
+    do_notes :C4
+    play :A4, sustain: 3
+    play :D4, sustain: 3
+    sleep 3
+  end
+  stop
+end
+
+live_loop :first_switch_final do
+  1.times do mmdoo:E2 end
+  stop
+end
+
+sleep 4
+
+live_loop :second_switch_final do
+  1.times do
+    mmdoo :A2
+    play :E2
+    sleep 0.5
+    play :E3
+    sleep 0.5
+    play :D2
+    sleep 0.5
+    play :D3
+    sleep 0.5
+    play :D2
+    sleep 0.5
+    play :D3
+    sleep 0.5
+    play :D2
+    sleep 0.5
+    play :D3
+    sleep 0.5
+  end
+  stop
+end
+
+sleep 4
+
+play :E4
+live_loop :tonight do
+  4.times do
+    play :E2
+    sleep 0.5
+    play :B2
+    sleep 0.5
+    play :G3
+    play :E3
+    sleep 0.5
+    play :B2
+    sleep 0.5
+  end
+  stop
+end
+live_loop :short_measure do
+  sleep 5.25
+  1.times do
+    play :b4
+    sleep 0.25
+    play :b4
+    sleep 0.25
+    play :b4
+    sleep 0.5
+    play :a4
+    sleep 0.25
+    play :g4
+    sleep 0.5
+    play :g4
+    sleep 0.5
+    play :a4
+  end
+  stop
+end
+sleep 8
+play :B4
+live_loop :tonight_alt do
+  4.times do
+    play :G2
+    sleep 0.5
+    play :D3
+    sleep 0.5
+    play :G3
+    play :B3
+    sleep 0.5
+    play :D3
+    sleep 0.5
+  end
+  stop
+end
+live_loop :short_measure_alt do
+  sleep 7
+  1.times do
+    play :b4
+    sleep 0.5
+    play :b4
+    sleep 0.5
+  end
+  stop
+end
+sleep 8
+play :B4
+live_loop :tonight_dif do
+  4.times do
+    play :B1
+    sleep 0.5
+    play :F2
+    sleep 0.5
+    play :B2
+    play :F3
+    sleep 0.5
+    play :F2
+    sleep 0.5
+  end
+  stop
+end
+live_loop :long_measure do
+  sleep 2
+  1.times do
+    play :A4, sustain: 2.5
+    sleep 2.5
+    play :A4, sustain: 2
+    sleep 2
+    play :A4
+    sleep 0.5
+    play :A4
+    sleep 0.5
+    play :A4
+    sleep 0.5
+    play :B4
+    sleep 0.5
+    play :B4
+    sleep 0.5
+    play :A4
+    sleep 0.5
+    play :G4
+    sleep 0.5
+    play :A4
+    sleep 0.5
+    play :G4
+  end
+  stop
+end
+sleep 8
+live_loop :newer_part do
+  8.times do
+    play :E2
+    sleep 0.5
+    play :B2
+    sleep 0.5
+    play :E3
+    play :G3
+    sleep 0.5
+    play :B2
+    sleep 0.5
+  end
+  stop
+end
+live_loop :newer_partalt do
+  sleep 6.5
+  1.times do
+    play :D5
+    play :D4
+    sleep 0.5
+    play :D5
+    play :D4
+    sleep 0.5
+    play :E5
+    play :E4
+    sleep 0.5
+    play :E5
+    play :E4
+  end
+  stop
+end
+sleep 8
+live_loop :dif_alt do
+  sleep 5.25
+  1.times do
+    play :b4
+    sleep 0.25
+    play :b4
+    sleep 0.25
+    play :b4
+    sleep 0.5
+    play :a4
+    sleep 0.25
+    play :g4
+    sleep 0.5
+    play :g4
+    sleep 0.5
+    play :a4
+  end
+  stop
+end
+sleep 8
+play :B4
+live_loop :tonight_alt do
+  4.times do
+    play :G2
+    sleep 0.5
+    play :D3
+    sleep 0.5
+    play :G3
+    play :B3
+    sleep 0.5
+    play :D3
+    sleep 0.5
+  end
+  stop
+end
+live_loop :new_alt do
+  sleep 6.5
+  1.times do
+    play :b4
+    sleep 0.5
+    play :b4
+    sleep 0.25
+    play :b4
+    sleep 0.25
+    play :b4
+    sleep 0.5
+    play :a4
+  end
+  stop
+end
+sleep 8
+live_loop :tonight_dif2 do
+  4.times do
+    play :B1
+    sleep 0.5
+    play :F2
+    sleep 0.5
+    play :B2
+    play :F3
+    sleep 0.5
+    play :F2
+    sleep 0.5
+  end
+  stop
+end
+live_loop :new_alt2 do
+  1.times do
+    play :b4
+    sleep 1.5
+    play :A4
+    sleep 0.5
+    play :A4
+    sleep 4.5
+    play :a4
+    sleep 0.5
+    play :a4
+    sleep 0.25
+    play :a4
+    sleep 0.25
+    play :a4
+    sleep 0.5
+    play :g4
+  end
+  stop
+end
+sleep 8
+live_loop :ending do
+  2.times do
+    play:G4
+    sleep 0.5
+    play:E2
+    sleep 0.5
+    play:A2
+    sleep 0.5
+    play:C3
+    sleep 0.5
+  end
+  stop
+end
+live_loop :ending_dif do
+  1.times do
+    play :a4
+    sleep 1.5
+    play :g4
+    sleep 0.5
+    play :g4
+  end
+  stop
+end
+sleep 4
+live_loop :ending2 do
+  1.times do
+    play:G4
+    sleep 0.5
+    play:E2
+    sleep 0.5
+    play:A2
+    sleep 0.5
+    play:C3
+    sleep 0.5
+    play :e2
+    play :g4
+  end
+  stop
+end
+sleep 2.75
+sample outro, amp: 0.5
+sleep 1
+sample outro, amp: 0.25
+sleep 1
+sample outro, amp: 0.125
+sleep 1
+sample outro, amp: 0.0625
+sleep 1
